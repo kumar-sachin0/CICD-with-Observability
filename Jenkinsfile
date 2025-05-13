@@ -52,14 +52,14 @@ pipeline {
         }
         
        stage('Publish To Nexus') {
-    steps {
-        withCredentials([usernamePassword(credentialsId: 'nexus-credentials', usernameVariable: 'NEXUS_USERNAME', passwordVariable: 'NEXUS_PASSWORD')]) {
-            withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: 'global-settings', traceability: true) {
-    sh "mvn deploy -DrepositoryId=nexus -Dusername=$NEXUS_USERNAME -Dpassword=$NEXUS_PASSWORD -s $MAVEN_SETTINGS"
+steps {
+withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17',
+maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+sh "mvn deploy"
 }
-            }
-        }
-    }
+}
+}
+
         
         stage('Build & Tag Docker Image') {
             steps {
