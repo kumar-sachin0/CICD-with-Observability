@@ -68,18 +68,15 @@ pipeline {
             }
         }
         
-      stage('Push Docker Image') {
-    steps {
-        script {
-            withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                sh """
-                echo "$DOCKER_PASSWORD" | docker login -u herosk --password-stdin
-                docker push sachin-kumar0/boardshack:latest
-                """
+     stage('Push Docker Image') {
+            steps {
+               script {
+                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                            sh "docker push sachin-kumar0/boardshack:latest"
+                    }
+               }
             }
         }
-    }
-}
 
         stage('Deploy To Kubernetes') {
             steps {
