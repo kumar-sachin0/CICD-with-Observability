@@ -73,7 +73,7 @@ pipeline {
         script {
             withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
                 sh """
-                docker login -u herosk p \${DOCKER_PASSWORD}
+                docker login -u herosk \${DOCKER_PASSWORD}
                 docker push sachin-kumar0/boardshack:latest
                 """
             }
