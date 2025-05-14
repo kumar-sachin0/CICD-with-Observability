@@ -80,14 +80,12 @@ sh "mvn -e -X deploy"
         stage('Push Docker Image') {
     steps {
         script {
-            withDockerRegistry(
-                credentialsId: 'docker-cred', 
-                toolName: 'docker'
-            ) {
-                sh """
+             withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                            sh """
                 echo \${docker-cred} | docker login -u herosk --password-stdin
                 docker push ghcr.io/sachin-kumar0/boardshack:latest
                 """
+            
             }
         }
     }
