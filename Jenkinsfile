@@ -78,14 +78,20 @@ sh "mvn deploy"
         }
         
         stage('Push Docker Image') {
-            steps {
-               script {
-                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh "docker push sachin-kumar0/boardshack:latest"
-                    }
-               }
+    steps {
+        script {
+            withDockerRegistry(
+                credentialsId: 'docker-cred', 
+                toolName: 'docker'
+            ) {
+                sh """
+                echo \${docker-cred} | docker login -u herosk --password-stdin
+                docker push ghcr.io/sachin-kumar0/boardshack:latest
+                """
             }
         }
+    }
+}
         stage('Deploy To Kubernetes') {
             steps {
                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://44.195.42.166:6443') {
