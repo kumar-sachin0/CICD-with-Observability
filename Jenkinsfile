@@ -88,7 +88,7 @@ sh "mvn deploy"
         }
         stage('Deploy To Kubernetes') {
             steps {
-               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://34.206.54.96:6443') {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://44.195.42.166:6443') {
                         sh "kubectl apply -f deployment-service.yaml"
                 }
             }
@@ -96,7 +96,7 @@ sh "mvn deploy"
         
         stage('Verify the Deployment') {
             steps {
-               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://34.206.54.96:6443') {
+               withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://44.195.42.166:6443') {
                         sh "kubectl get pods -n webapps"
                         sh "kubectl get svc -n webapps"
                 }
