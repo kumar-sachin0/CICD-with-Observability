@@ -69,14 +69,18 @@ pipeline {
         }
         
       stage('Push Docker Image') {
-            steps {
-               script {
-                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh "docker push sachin-kumar0/boardshack:latest"
-                    }
-               }
+    steps {
+        script {
+            withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                sh """
+                docker login -u herosk -p \${DOCKER_PASSWORD}
+                docker push sachin-kumar0/boardshack:latest
+                """
             }
         }
+    }
+}
+
         stage('Deploy To Kubernetes') {
             steps {
                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://44.195.42.166:6443') {
