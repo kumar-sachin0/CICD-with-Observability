@@ -51,15 +51,6 @@ pipeline {
             }
         }
         
-       stage('Publish To Nexus') {
-steps {
-withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17',
-maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
-sh "mvn -e -X deploy"
-}
-}
-}
-
         
         stage('Build & Tag Docker Image') {
             steps {
@@ -77,19 +68,15 @@ sh "mvn -e -X deploy"
             }
         }
         
-        stage('Push Docker Image') {
-    steps {
-        script {
-             withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
-                            sh """
-                echo \${docker-cred} | docker login -u herosk --password-stdin
-                docker push ghcr.io/sachin-kumar0/boardshack:latest
-                """
-            
+      stage('Push Docker Image') {
+            steps {
+               script {
+                   withDockerRegistry(credentialsId: 'docker-cred', toolName: 'docker') {
+                            sh "docker push sachin-kumar0/boardshack:latest"
+                    }
+               }
             }
         }
-    }
-}
         stage('Deploy To Kubernetes') {
             steps {
                withKubeConfig(caCertificate: '', clusterName: 'kubernetes', contextName: '', credentialsId: 'k8-cred', namespace: 'webapps', restrictKubeConfigAccess: false, serverUrl: 'http://44.195.42.166:6443') {
