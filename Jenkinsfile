@@ -51,7 +51,13 @@ pipeline {
             }
         }
 
-       
+       stage('Publish To Nexus') {
+            steps {
+               withMaven(globalMavenSettingsConfig: 'global-settings', jdk: 'jdk17', maven: 'maven3', mavenSettingsConfig: '', traceability: true) {
+                    sh "mvn deploy"
+                }
+            }
+        }
         
         stage('Build & Tag Docker Image') {
             steps {
@@ -63,7 +69,11 @@ pipeline {
             }
         }
         
-        
+     stage('Docker Image Scan') {
+            steps {
+                sh "trivy image --format table -o trivy-image-report.html ganeshperumal007/boardshack:latest "
+            }
+        }   
         
      stage('Push Docker Image') {
             steps {
