@@ -1,4 +1,4 @@
-# CICD-with-Observability 🚀
+# Complete CICD project integrated with monitoring tools 🚀
 
 ## Skills & Tools Demonstrated
 
@@ -19,7 +19,7 @@
 ## Quick Start
 
 1. **Clone the repo:**  
-   `git clone https://github.com/kumar-sachin0/CICD-with-Observability.git`
+   `git clone https://github.com/kumar-sachin0/Complete-CICD-Project-with-Monitoring.git`
 2. **Run the App:**  
    Use provided credentials or sign up as a new user:
    - `bugs` / `bunny` (user role)
